@@ -13,7 +13,3 @@ def send_exception_message(exception):
         chat_id=CHAT_ID,
         text=message
     )
-
-
-def start_polling():
-    updater.start_polling()

@@ -8,8 +8,8 @@ class MVideo(Retailer):
     retailer_name = 'МВидео'
     expected_string = 'Товар распродан'
 
-    # ps5_url = 'https://www.mvideo.ru/products/igrovaya-konsol-sony-playstation-5-40073270?cityId=CityCZ_2246'
-    ps5_url = 'https://www.mvideo.ru/products/igrovaya-konsol-playstation-4-1tb-gts-hzd-spiderm-ps-3mes-40074231'
+    ps5_url = 'https://www.mvideo.ru/products/igrovaya-konsol-sony-playstation-5-40073270?cityId=CityCZ_2246'
+    # ps5_url = 'https://www.mvideo.ru/products/igrovaya-konsol-playstation-4-1tb-gts-hzd-spiderm-ps-3mes-40074231'
 
     @classmethod
     def check_status(cls):

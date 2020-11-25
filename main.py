@@ -1,4 +1,3 @@
-import threading
 import time
 import logging
 
@@ -9,7 +8,7 @@ from retailers.eldorado import Eldorado
 from retailers.one_c import OneC
 from retailers.ozon import Ozon
 from settings import CHECK_INTERVAL
-from telegram_api import start_polling, send_exception_message
+from telegram_api import send_exception_message
 
 logging.basicConfig(
     level=logging.INFO,
@@ -27,8 +26,6 @@ retailers = [
     OneC,
     Ozon,
 ]
-
-threading.Thread(target=start_polling).start()
 
 while True:
     for retailer in retailers:
