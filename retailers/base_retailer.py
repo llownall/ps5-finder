@@ -20,12 +20,12 @@ class Retailer:
 
     @classmethod
     def on_check_status(cls):
-        logging.info(f'Проверка статуса заказа ритейлера {cls.retailer_name}')
+        logging.info(f'Проверка статуса товара ритейлера {cls.retailer_name}')
         cls.status_check_call_counter += 1
 
     @classmethod
     def on_check_status_end(cls):
-        logging.info(f'Проверка статуса заказа ритейлера {cls.retailer_name} завершена. Ничего нового')
+        logging.info(f'Проверка статуса товара ритейлера {cls.retailer_name} завершена. Ничего нового')
         cls.status_check_call_success_counter += 1
 
     @classmethod

@@ -1,6 +1,8 @@
 import time
 import logging
 
+from selenium.common.exceptions import TimeoutException
+
 from retailers.base_retailer import *
 from retailers.mvideo import MVideo
 from retailers.dns import DNS
@@ -37,7 +39,10 @@ while True:
         except UnexpectedData as e:
             logging.warning(e)
             send_exception_message(e)
+        except TimeoutException as e:
+            logging.error(f'Таймаут {retailer.retailer_name}')
         except Exception as e:
+            logging.error(type(e))
             logging.error(e)
             send_exception_message(e)
 

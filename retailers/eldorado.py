@@ -1,12 +1,7 @@
-import requests
 from selenium.common.exceptions import NoSuchElementException
 
 from retailers.base_retailer import *
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-
-from settings import CHROMEDRIVER_PATH
+from website import load_page_and_return_driver
 
 
 class Eldorado(Retailer):
@@ -21,8 +16,7 @@ class Eldorado(Retailer):
         super().on_check_status()
 
         try:
-            driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-            driver.get(cls.ps5_url)
+            driver = load_page_and_return_driver(cls.ps5_url)
             elem = driver.find_element_by_class_name('bottomBlockContentRight')\
                 .find_element_by_class_name('buy-box__status-label')
             if elem.text != cls.expected_string:
