@@ -1,2 +1,3 @@
 CHECK_INTERVAL = 60 * 5
 CHAT_ID = 247819387
+CHROMEDRIVER_PATH = 'chromedriver.exe'

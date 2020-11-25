@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+from settings import CHROMEDRIVER_PATH
+
 
 class OneC(Retailer):
     retailer_name = '1C Интерес'
@@ -20,7 +22,7 @@ class OneC(Retailer):
         super().on_check_status()
 
         try:
-            driver = webdriver.Chrome('chromedriver.exe')
+            driver = webdriver.Chrome(CHROMEDRIVER_PATH)
             driver.get(cls.ps5_url)
 
             elem = driver.find_element_by_class_name('product_card_detail') \

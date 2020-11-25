@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+from settings import CHROMEDRIVER_PATH
+
 
 class DNS(Retailer):
     retailer_name = 'ДНС'
@@ -18,7 +20,7 @@ class DNS(Retailer):
         super().on_check_status()
 
         try:
-            driver = webdriver.Chrome('chromedriver.exe')
+            driver = webdriver.Chrome(CHROMEDRIVER_PATH)
             driver.get(cls.ps5_url)
             elem = driver.find_element_by_class_name('product-card-price__current')
         except NoSuchElementException:
