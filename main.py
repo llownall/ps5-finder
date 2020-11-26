@@ -40,7 +40,8 @@ def status(update, context):
     for retailer in retailers:
         retailers_data.append(
             f'`{retailer.retailer_name:<12}: {retailer.status_check_call_success_counter} '
-            f'/ {retailer.status_check_call_counter}{" ###" if retailer.is_current else ""}`'
+            f'/ {retailer.status_check_call_counter}{"  <==" if retailer.is_current else ""}'
+            f'{"" if retailer.is_active else "   ||"}`'
         )
     retailers_data_string = '\n'.join(retailers_data)
 
@@ -49,10 +50,30 @@ def status(update, context):
               f'{retailers_data_string}'
 
     if pause_time is not None:
-        message += f'\nПродолжение через {CHECK_INTERVAL - (datetime.datetime.now() - pause_time).seconds} ' \
+        message += f'\nСледующая проверка через {CHECK_INTERVAL - (datetime.datetime.now() - pause_time).seconds} ' \
                    f'секунд'
 
     context.bot.send_message(chat_id=update.effective_chat.id, text=message, parse_mode='MarkdownV2')
+
+
+def retailers_toggle(update, context):
+    if len(context.args) > 0:
+        for str_i in context.args:
+            i = int(str_i) - 1
+            retailers[i].is_active = not retailers[i].is_active
+
+    retailers_data = []
+    for index, retailer in enumerate(retailers):
+        retailers_data.append(
+            f'`{index + 1}\. {retailer.retailer_name:<12}: {"    on" if retailer.is_active else "off   "}`'
+        )
+    retailers_data_string = '\n'.join(retailers_data)
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text=retailers_data_string, parse_mode='MarkdownV2')
+    try:
+        pass
+    except Exception as e:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
 
 
 def send_exception_message(exception):
@@ -66,8 +87,8 @@ updater = Updater(
     use_context=True,
 )
 
-start_handler = CommandHandler('status', status)
-updater.dispatcher.add_handler(start_handler)
+updater.dispatcher.add_handler(CommandHandler('status', status))
+updater.dispatcher.add_handler(CommandHandler('shop', retailers_toggle))
 threading.Thread(target=updater.start_polling).start()
 
 launch_time = datetime.datetime.now()
@@ -75,6 +96,10 @@ pause_time = None
 
 while True:
     for retailer in retailers:
+        if not retailer.is_active:
+            logging.info(f'Пропуск ритейлера ({retailer.retailer_name})')
+            continue
+
         retailer.is_current = True
         try:
             retailer.check_status()

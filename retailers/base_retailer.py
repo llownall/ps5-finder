@@ -16,6 +16,7 @@ class ParseError(Exception):
 
 class Retailer:
     is_current = False
+    is_active = True
     status_check_call_counter = 0
     status_check_call_success_counter = 0
     retailer_name = ''
