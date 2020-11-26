@@ -15,6 +15,7 @@ class ParseError(Exception):
 
 
 class Retailer:
+    is_current = False
     status_check_call_counter = 0
     status_check_call_success_counter = 0
     retailer_name = ''
@@ -36,5 +37,5 @@ class Retailer:
     @classmethod
     def save_screenshot(cls, driver):
         driver.save_screenshot('last_screenshot.png')
-        driver.save_screenshot(f'screenshots/{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        driver.save_screenshot(f'screenshots/{datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")}'
                                f'_{cls.retailer_name}.png')

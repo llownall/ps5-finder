@@ -19,7 +19,6 @@ class DNS(Retailer):
         try:
             elem = driver.find_element_by_class_name('product-card-price__current')
         except NoSuchElementException:
-            cls.save_screenshot(driver)
             logging.info(f'Selenium ничего не нашел')
             super().on_check_status_end()
         else:

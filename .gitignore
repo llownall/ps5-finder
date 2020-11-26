@@ -3,3 +3,6 @@
 venv
 chromedriver.exe
 *.log
+screenshots
+last_screenshot.png
+*.png
