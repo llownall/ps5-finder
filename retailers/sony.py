@@ -8,9 +8,9 @@ class Sony(Retailer):
     retailer_name = 'Sony Store'
     expected_string = 'Временно нет на складе'
 
-    # ps5_url = 'https://store.sony.ru/product/konsol-playstation-5-317406/'
+    ps5_url = 'https://store.sony.ru/product/konsol-playstation-5-317406/'
 
-    ps5_url = 'https://store.sony.ru/product/igrovaya-konsol-playstation-4-pro-1-tb-s-komplektom-igr-316844/'
+    # ps5_url = 'https://store.sony.ru/product/igrovaya-konsol-playstation-4-pro-1-tb-s-komplektom-igr-316844/'
 
     @classmethod
     def check_status(cls):
