@@ -82,6 +82,10 @@ def send_exception_message(exception):
     updater.bot.send_photo(chat_id=CHAT_ID, photo=open('last_screenshot.png', 'rb'))
 
 
+def send_url(url):
+    updater.bot.send_message(chat_id=CHAT_ID, text=url)
+
+
 updater = Updater(
     token=os.environ['TOKEN'],
     use_context=True,
@@ -106,15 +110,18 @@ while True:
         except InStock as e:
             logging.critical(f'{e} ({retailer.retailer_name})')
             send_exception_message(f'{e} ({retailer.retailer_name})')
+            send_url(retailer.ps5_url)
         except UnexpectedData as e:
             logging.warning(f'{e} ({retailer.retailer_name})')
             send_exception_message(f'{e} ({retailer.retailer_name})')
+            send_url(retailer.ps5_url)
         except TimeoutException as e:
             logging.error(f'Таймаут {retailer.retailer_name}')
         except Exception as e:
             logging.error(f'{type(e)} ({retailer.retailer_name})')
             logging.error(f'{e} ({retailer.retailer_name})')
             send_exception_message(f'{e} ({retailer.retailer_name})')
+            send_url(retailer.ps5_url)
         finally:
             retailer.is_current = False
 
@@ -122,4 +129,3 @@ while True:
     pause_time = datetime.datetime.now()
     time.sleep(CHECK_INTERVAL)
     pause_time = None
-

@@ -6,7 +6,10 @@ from website import load_page_and_return_driver
 
 class Eldorado(Retailer):
     retailer_name = 'Эльдорадо'
-    expected_string = 'Скоро в продаже'
+    expected_strings = [
+        'Скоро в продаже',
+        'Нет в наличии',
+    ]
 
     ps5_url = 'https://www.eldorado.ru/cat/detail/igrovaya-pristavka-sony-playstation-5/'
 
@@ -18,12 +21,17 @@ class Eldorado(Retailer):
 
         driver = load_page_and_return_driver(cls.ps5_url)
         try:
-            elem = driver.find_element_by_class_name('bottomBlockContentRight') \
-                .find_element_by_class_name('buy-box__status-label')
-            if elem.text != cls.expected_string:
+            try:
+                elem = driver.find_element_by_class_name('bottomBlockContentRight') \
+                    .find_element_by_class_name('buy-box__status-label')
+            except NoSuchElementException:
+                elem = driver.find_element_by_class_name('bottomBlockContentRight') \
+                    .find_element_by_class_name('outOfStock')
+
+            if elem.text not in cls.expected_strings:
                 cls.save_screenshot(driver)
                 raise UnexpectedData(f'UnexpectedData: найдена строка {elem.text} вместо '
-                                     f'ожидаемой {cls.expected_string}')
+                                     f'ожидаемых {cls.expected_strings}')
         except NoSuchElementException:
             cls.save_screenshot(driver)
             raise InStock(f'InStock: selenium ничего не нашел, а ДОЛЖЕН БЫЛ!')
