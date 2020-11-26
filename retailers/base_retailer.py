@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 
@@ -31,3 +32,9 @@ class Retailer:
     @classmethod
     def check_status(cls):
         pass
+
+    @classmethod
+    def save_screenshot(cls, driver):
+        driver.save_screenshot('last_screenshot.png')
+        driver.save_screenshot(f'screenshots/{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+                               f'_{cls.retailer_name}.png')
