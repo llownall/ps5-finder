@@ -47,9 +47,9 @@ class Retailer:
                 self.last_html = inner_html
                 self.save_screenshot(driver)
                 raise HTMLChanged(f'HTMLChanged')
+            self.on_check_status_end()
         except NoSuchElementException:
             logging.info(f'Selenium ничего не нашел')
-            self.on_check_status_end()
         finally:
             driver.close()
 
