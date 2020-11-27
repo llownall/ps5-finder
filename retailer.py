@@ -40,7 +40,8 @@ class Retailer:
         driver = load_page_and_return_driver(self.ps5_url)
         try:
             elem = driver.find_element_by_class_name(self.html_class)
-            inner_html = elem.get_attribute('innerHTML').strip()
+            inner_html = elem.text
+            # inner_html = elem.get_attribute('innerHTML').strip()
             if self.last_html is None:
                 self.last_html = inner_html
             elif self.last_html != inner_html:
