@@ -1,18 +1,11 @@
 import threading
 import time
-import logging
 import os
 
 from telegram.ext import Updater, CommandHandler
 from selenium.common.exceptions import TimeoutException
 
-from retailers.base_retailer import *
-from retailers.sony import Sony
-from retailers.mvideo import MVideo
-from retailers.dns import DNS
-from retailers.eldorado import Eldorado
-from retailers.one_c import OneC
-from retailers.ozon import Ozon
+from retailer import *
 from settings import CHECK_INTERVAL, CHAT_ID
 from utils import get_human_time
 
@@ -26,12 +19,36 @@ logging.basicConfig(
 )
 
 retailers = [
-    Sony,
-    MVideo,
-    DNS,
-    Eldorado,
-    OneC,
-    Ozon,
+    Retailer(
+        'Sony Store',
+        'https://store.sony.ru/product/konsol-playstation-5-317406/',
+        'pricebox-card',
+    ),
+    Retailer(
+        'МВидео',
+        'https://www.mvideo.ru/products/igrovaya-konsol-sony-playstation-5-40073270?cityId=CityCZ_2246',
+        'fl-pdp-pay',
+    ),
+    Retailer(
+        'ДНС',
+        'https://www.dns-shop.ru/product/2645e72c6fca1b80/igrovaa-konsol-playstation-5/',
+        'col-order',
+    ),
+    Retailer(
+        'Эльдорадо',
+        'https://www.eldorado.ru/cat/detail/igrovaya-pristavka-sony-playstation-5/',
+        'buyBox',
+    ),
+    Retailer(
+        '1C Интерес',
+        'https://www.1c-interes.ru/catalog/all6969/30328282/',
+        'product_card_buy',
+    ),
+    Retailer(
+        'OZON',
+        'https://www.ozon.ru/product/igrovaya-konsol-playstation-5-belyy-178337786/',
+        'fake-sale-block',
+    ),
 ]
 
 
@@ -107,12 +124,8 @@ while True:
         retailer.is_current = True
         try:
             retailer.check_status()
-        except InStock as e:
+        except HTMLChanged as e:
             logging.critical(f'{e} ({retailer.retailer_name})')
-            send_exception_message(f'{e} ({retailer.retailer_name})')
-            send_url(retailer.ps5_url)
-        except UnexpectedData as e:
-            logging.warning(f'{e} ({retailer.retailer_name})')
             send_exception_message(f'{e} ({retailer.retailer_name})')
             send_url(retailer.ps5_url)
         except TimeoutException as e:
